@@ -9,6 +9,7 @@ const persons: Person[] = makeData(1000)
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
+  const [count, setCount] = useState(persons.length)
 
   return (
     <>
@@ -23,13 +24,17 @@ const App = () => {
           alignItems="center"
         >
           <Box whiteSpace="nowrap" flex="1" color="gray.600">
-            {persons.length} Persons
+            {count} Persons
           </Box>
 
           <SearchInput onChange={setSearchQuery} />
         </Heading>
 
-        <DataTable persons={persons} globalFilter={searchQuery} />
+        <DataTable
+          persons={persons}
+          globalFilter={searchQuery}
+          onRowsChanged={setCount}
+        />
       </Stack>
     </>
   )

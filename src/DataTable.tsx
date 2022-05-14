@@ -15,12 +15,14 @@ import {
   getFilteredRowModel,
 } from '@tanstack/react-table'
 import type { Person } from './model'
+import { useEffect } from 'react'
 
 const table = createTable().setRowType<Person>()
 
 interface DataTableProps {
   persons: Person[]
   globalFilter: string
+  onRowsChanged?: (rows: number) => void
 }
 
 const DataTable = function DataTable(props: DataTableProps) {
@@ -47,7 +49,13 @@ const DataTable = function DataTable(props: DataTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
   })
 
-  console.log('DataTable render')
+  const length = instance.getFilteredRowModel().rows.length
+
+  useEffect(() => {
+    if (props.onRowsChanged) {
+      props.onRowsChanged(length)
+    }
+  }, [length])
 
   return (
     <TableContainer>
@@ -64,7 +72,7 @@ const DataTable = function DataTable(props: DataTableProps) {
           ))}
         </Thead>
         <Tbody>
-          {instance.getFilteredRowModel().flatRows.map((row) => (
+          {instance.getFilteredRowModel().rows.map((row) => (
             <Tr key={row.id} _hover={{ bg: 'gray.50', cursor: 'pointer' }}>
               {row.getVisibleCells().map((cell) => (
                 <Td key={cell.id}>{cell.renderCell()}</Td>

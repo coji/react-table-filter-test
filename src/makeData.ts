@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 
+faker.seed(1)
 const newPerson = () => {
   return {
     category: faker.commerce.department(),
