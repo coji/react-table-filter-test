@@ -1,4 +1,4 @@
-import { useState, useMemo, memo } from 'react'
+import { useState, useMemo } from 'react'
 import {
   TableContainer,
   Table,
@@ -22,8 +22,9 @@ interface DataTableProps {
   persons: Person[]
   globalFilter: string
 }
-export const DataTable = memo(function DataTable(props: DataTableProps) {
-  const [data] = useState([...props.persons])
+
+const DataTable = function DataTable(props: DataTableProps) {
+  const [data] = useState(props.persons)
   const columns = useMemo(
     () => [
       table.createDataColumn('category', {}),
@@ -46,7 +47,7 @@ export const DataTable = memo(function DataTable(props: DataTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
   })
 
-  console.log('render: ', props, instance.getFilteredRowModel().flatRows.length)
+  console.log('DataTable render')
 
   return (
     <TableContainer>
@@ -74,4 +75,7 @@ export const DataTable = memo(function DataTable(props: DataTableProps) {
       </Table>
     </TableContainer>
   )
-})
+}
+
+DataTable.whyDidYouRender = true
+export { DataTable }
